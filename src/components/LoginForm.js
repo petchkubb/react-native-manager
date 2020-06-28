@@ -1,11 +1,22 @@
 import React, {Component} from 'react';
 import {SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
-import {emailChanged} from '../actions';
+import {emailChanged, passwordChangeed, loginUser} from '../actions';
 import {Card, CardSection, Input, Button} from './common';
 
 class LoginForm extends Component {
-  onEmailChange = (text) => {};
+  onEmailChange = (text) => {
+    this.props.emailChanged(text);
+  };
+
+  onPasswordChange = (text) => {
+    this.props.passwordChangeed(text);
+  };
+
+  onButtonPress = () => {
+    const {email, password} = this.props;
+    this.props.loginUser({email, password});
+  };
 
   render() {
     return (
@@ -16,6 +27,7 @@ class LoginForm extends Component {
               label="Email"
               placeholder="email@gmail.com"
               onChangeText={this.onEmailChange}
+              value={this.props.email}
             />
           </CardSection>
           <CardSection>
@@ -23,10 +35,12 @@ class LoginForm extends Component {
               label="Password"
               secureTextEntry={true}
               placeholder="Password"
+              onChangeText={this.onPasswordChange}
+              value={this.props.password}
             />
           </CardSection>
           <CardSection>
-            <Button title="Login" />
+            <Button title="Login" onPress={this.onButtonPress} />
           </CardSection>
         </Card>
       </SafeAreaView>
@@ -34,4 +48,15 @@ class LoginForm extends Component {
   }
 }
 
-export default connect(null, {emailChanged})(LoginForm);
+const mapStateToProps = (state) => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password,
+  };
+};
+
+export default connect(mapStateToProps, {
+  emailChanged,
+  passwordChangeed,
+  loginUser,
+})(LoginForm);
