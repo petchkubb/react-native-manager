@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
 import {SafeAreaView} from 'react-native';
+import {connect} from 'react-redux';
+import {emailChanged} from '../actions';
 import {Card, CardSection, Input, Button} from './common';
 
 class LoginForm extends Component {
+  onEmailChange = (text) => {};
+
   render() {
     return (
       <SafeAreaView>
         <Card>
           <CardSection>
-            <Input label="Email" placeholder="email@gmail.com" />
+            <Input
+              label="Email"
+              placeholder="email@gmail.com"
+              onChangeText={this.onEmailChange}
+            />
           </CardSection>
           <CardSection>
             <Input
@@ -26,4 +34,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default connect(null, {emailChanged})(LoginForm);
