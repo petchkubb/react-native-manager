@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {SafeAreaView, View, Text, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {emailChanged, passwordChangeed, loginUser} from '../actions';
-import {Card, CardSection, Input, Button} from './common';
+import {Card, CardSection, Input, Button, Spinner} from './common';
 
 class LoginForm extends Component {
   onEmailChange = (text) => {
@@ -21,11 +21,18 @@ class LoginForm extends Component {
   renderError() {
     if (this.props.error) {
       return (
-        <View style={{backgroundColor: 'white'}}>
+        <View style={styles.white}>
           <Text style={styles.errorTextType}>{this.props.error}</Text>
         </View>
       );
     }
+  }
+
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner size="large" />;
+    }
+    return <Button title="Login" onPress={this.onButtonPress} />;
   }
 
   render() {
@@ -50,9 +57,7 @@ class LoginForm extends Component {
             />
           </CardSection>
           {this.renderError()}
-          <CardSection>
-            <Button title="Login" onPress={this.onButtonPress} />
-          </CardSection>
+          <CardSection>{this.renderButton()}</CardSection>
         </Card>
       </SafeAreaView>
     );
@@ -65,13 +70,18 @@ const styles = StyleSheet.create({
     color: 'red',
     alignSelf: 'center',
   },
+  white: {
+    backgroundColor: 'white',
+  },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({auth}) => {
+  const {email, password, error, loading} = auth;
   return {
-    email: state.auth.email,
-    password: state.auth.password,
-    error: state.auth.error,
+    email,
+    password,
+    error,
+    loading,
   };
 };
 
