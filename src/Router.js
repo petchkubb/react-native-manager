@@ -21,6 +21,8 @@ const RouterComponent = () => {
             key="employeeList"
             component={EmployeeList}
             title="Employees"
+            rightTitle="Add"
+            onRight={() => {}}
           />
           {/* <Scene key="employeeDetail" /> */}
         </Scene>
