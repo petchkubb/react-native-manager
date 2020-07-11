@@ -12,7 +12,7 @@ class EmployeeList extends Component {
   }
 
   onRowPress = (employee) => () => {
-    Actions.employeeDetail({employee});
+    Actions.employeeEdit({employee});
   };
 
   renderItem = ({item, index}) => {
